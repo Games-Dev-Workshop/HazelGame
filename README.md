@@ -1,3 +1,34 @@
+# Hazel Game 
+
+Looking to develop a game using the Hazel engine as part of the games dev workshop. Probably based one of the Pitches from the pitch section on Teams. 
+
+## Getting Started 
+
+1. Follow the (slighly modified) getting started below, I've added notes on using ```gh`` (the github commandline) 
+
+2. Read the code?
+
+## GDD 
+
+### Overview 
+
+The game premise is based on an episode of [Red Dwarf](https://en.wikipedia.org/wiki/The_Beginning_(Red_Dwarf)) in the space battle scene the unarmed hero ship moves between enemy vessels and once they have fired uses a device which changes the ships hull to allow objects to pass though it.  The game will be two dimensional and contain a number of randomly generated levels of increasing difficulty. 
+
+This has some simularity to [Ikaruga](https://en.wikipedia.org/wiki/Ikaruga) see video [here](https://www.youtube.com/watch?v=SDsrVrQlWuY), but is less complicated. 
+
+### Player Mechanics
+
+The player can move, in two dimensions and turn off collision detection on the ship allowing objects pass though. The player ship is not able to fire.
+
+### NPC Mechanics
+
+Aim to surround player and fire a projectile. 
+
+### Levels
+
+These will be procedurally generated, there will be a number of NPC ships ... perhaps something else to make it more interseting?
+
+
 # Hazel [![License](https://img.shields.io/github/license/TheCherno/Hazel.svg)](https://github.com/TheCherno/Hazel/blob/master/LICENSE)
 
 ![Hazel](/Resources/Branding/Hazel_Logo_Text_Light_Square.png?raw=true "Hazel")
