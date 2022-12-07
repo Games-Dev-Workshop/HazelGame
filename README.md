@@ -16,12 +16,15 @@ If the repository was cloned non-recursively previously, use `git submodule upda
 
 <ins>**2. Configuring the dependencies:**</ins>
 
+*Gotcha:* Tried this in the lab, works from Powershell but not GitBash.
+
 1. Run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file found in `scripts` folder. This will download the required prerequisites for the project if they are not present yet.
 2. One prerequisite is the Vulkan SDK. If it is not installed, the script will execute the `VulkanSDK.exe` file, and will prompt the user to install the SDK.
 3. After installation, run the [Setup.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Setup.bat) file again. If the Vulkan SDK is installed properly, it will then download the Vulkan SDK Debug libraries. (This may take a longer amount of time)
 4. After downloading and unzipping the files, the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file will get executed automatically, which will then generate a Visual Studio solution file for user's usage.
+5. The generated solution includes a number of Hazel related projects and one **Games Dev Workshop** project called **Space Game** the code for this project will live here. 
 
-If changes are made, or if you want to regenerate project files, rerun the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file found in `scripts` folder.
+If changes are made (e.g. adding/renaming files/classes), or if you want to regenerate project files fpr another reason, rerun the [Win-GenProjects.bat](https://github.com/TheCherno/Hazel/blob/master/scripts/Win-GenProjects.bat) script file found in `scripts` folder.
 
 ## GDD 
 

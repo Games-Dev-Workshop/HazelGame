@@ -44,4 +44,6 @@ group ""
 
 group "Misc"
 	include "Sandbox"
-group ""
+	
+group "Games Dev Workshop"
+	include "SpaceGame"
