@@ -18,8 +18,8 @@ private:
 	Hazel::OrthographicCameraController m_CameraController;
 	
 	// Temp
-	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
-	Hazel::Ref<Hazel::Shader> m_FlatColorShader;
+	//Hazel::Ref<Hazel::VertexArray> m_SquareVA;
+	//Hazel::Ref<Hazel::Shader> m_FlatColorShader;
 
 	Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
 
