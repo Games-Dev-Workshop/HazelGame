@@ -15,6 +15,7 @@ void SpaceGame::OnAttach()
 {
 	HZ_PROFILE_FUNCTION();
 
+	m_CameraController.SetZoomLevel(-10.0f);
 	player.reset(new Ship());
 	player->init();
 }
@@ -61,6 +62,11 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 			}
 		}
 		Hazel::Renderer2D::EndScene();
+	}
+
+	{
+		HZ_PROFILE_SCOPE("Updates")
+		player->update(ts);
 	}
 }
 
