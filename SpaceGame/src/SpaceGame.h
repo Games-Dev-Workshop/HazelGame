@@ -3,6 +3,7 @@
 #include "Hazel.h"
 
 class Ship;
+class Background;
 
 class SpaceGame : public Hazel::Layer
 {
@@ -19,13 +20,9 @@ public:
 private:
 	Hazel::OrthographicCameraController m_CameraController;
 	
-	// Temp
-	//Hazel::Ref<Hazel::VertexArray> m_SquareVA;
-	//Hazel::Ref<Hazel::Shader> m_FlatColorShader;
-
 	std::shared_ptr<Ship> player;
+	std::shared_ptr<Background> background;
 
-	//Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
-
+	// for imgui overlay
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 };

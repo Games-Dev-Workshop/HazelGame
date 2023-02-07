@@ -5,9 +5,12 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Ship.h"
+#include "Background.h"
+
+#include <iostream>
 
 SpaceGame::SpaceGame()
-	: Layer("SpaceGame"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
+	: Layer("SpaceGame"), m_CameraController(1280.0f / 720.0f)
 {
 }
 
@@ -18,6 +21,9 @@ void SpaceGame::OnAttach()
 	m_CameraController.SetZoomLevel(-10.0f);
 	player.reset(new Ship());
 	player->init();
+
+	background.reset(new Background());
+	background->init();
 }
 
 void SpaceGame::OnDetach()
@@ -41,8 +47,6 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 	}
 
 	{
-		static float rotation = 0.0f;
-		rotation += ts * 50.0f;
 
 		HZ_PROFILE_SCOPE("Renderer Draw");
 		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
@@ -53,14 +57,10 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		Hazel::Renderer2D::EndScene();
 
 		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
-		for (float y = -5.0f; y < 5.0f; y += 0.5f)
-		{
-			for (float x = -5.0f; x < 5.0f; x += 0.5f)
-			{
-				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-				Hazel::Renderer2D::DrawQuad({ x, y }, { 0.45f, 0.45f }, color);
-			}
-		}
+		
+		//Draw background
+		background->draw();
+
 		Hazel::Renderer2D::EndScene();
 	}
 
@@ -89,5 +89,36 @@ void SpaceGame::OnImGuiRender()
 
 void SpaceGame::OnEvent(Hazel::Event& e)
 {
-	m_CameraController.OnEvent(e);
+	//m_CameraController.OnEvent(e);
+
+	Hazel::KeyCode key;
+
+	if (e.GetCategoryFlags() & Hazel::EventCategoryKeyboard) {
+		
+		switch (e.GetEventType())
+		{
+		case Hazel::EventType::KeyPressed:
+			key = dynamic_cast<Hazel::KeyPressedEvent&>(e).GetKeyCode();
+			switch (key)
+			{
+			case Hazel::Key::W:
+				std::cout << "Up" << std::endl;
+				break;
+			}
+			break;
+		case Hazel::EventType::KeyReleased:
+			key = dynamic_cast<Hazel::KeyReleasedEvent&>(e).GetKeyCode();
+			switch (key)
+			{
+			case Hazel::Key::W:
+				std::cout << "Down" << std::endl;
+				break;
+			}
+			break;
+		case Hazel::EventType::KeyTyped:
+			break;
+		default:
+			break;
+		}
+	}
 }
