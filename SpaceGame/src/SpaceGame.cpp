@@ -101,8 +101,8 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 			key = dynamic_cast<Hazel::KeyPressedEvent&>(e).GetKeyCode();
 			switch (key)
 			{
-			case Hazel::Key::W:
-				std::cout << "Up" << std::endl;
+			case Hazel::Key::Escape:
+				std::cout << "Escape Pressed" << std::endl;
 				break;
 			}
 			break;
@@ -110,8 +110,8 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 			key = dynamic_cast<Hazel::KeyReleasedEvent&>(e).GetKeyCode();
 			switch (key)
 			{
-			case Hazel::Key::W:
-				std::cout << "Down" << std::endl;
+			case Hazel::Key::Escape:
+				std::cout << "Escape Released" << std::endl;
 				break;
 			}
 			break;
