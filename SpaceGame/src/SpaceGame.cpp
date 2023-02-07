@@ -35,9 +35,6 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 
-	// Update
-	m_CameraController.OnUpdate(ts);
-
 	// Render
 	Hazel::Renderer2D::ResetStats();
 	{
@@ -66,6 +63,9 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 
 	{
 		HZ_PROFILE_SCOPE("Updates")
+		// Update
+		//m_CameraController.OnUpdate(ts);
+		background->update(ts);
 		player->update(ts);
 	}
 }
