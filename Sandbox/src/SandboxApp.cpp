@@ -10,8 +10,8 @@ public:
 	Sandbox(const Hazel::ApplicationSpecification& specification)
 		: Hazel::Application(specification)
 	{
-		// PushLayer(new ExampleLayer());
-		PushLayer(new Sandbox2D());
+		PushLayer(new ExampleLayer());
+		//PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox()

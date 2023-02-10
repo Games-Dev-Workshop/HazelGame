@@ -12,13 +12,15 @@
 SpaceGame::SpaceGame()
 	: Layer("SpaceGame"), m_CameraController(1280.0f / 720.0f)
 {
+	m_CameraController.SetZoomLevel(-5.0f);
+
 }
 
 void SpaceGame::OnAttach()
 {
 	HZ_PROFILE_FUNCTION();
 
-	m_CameraController.SetZoomLevel(-10.0f);
+	
 	player.reset(new Ship());
 	player->init();
 
