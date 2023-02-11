@@ -31,11 +31,11 @@ void Ship::update(Hazel::Timestep ts)
 
 	if (Hazel::Input::IsKeyPressed(Hazel::Key::A))
 	{
-		velocity.x = -Ship::MAX_VELOCITY;
+		velocity.x = Ship::MAX_VELOCITY;
 	}
 	else if (Hazel::Input::IsKeyPressed(Hazel::Key::D))
 	{
-		velocity.x = Ship::MAX_VELOCITY;
+		velocity.x = -Ship::MAX_VELOCITY;
 	}
 	else 
 	{
@@ -45,11 +45,11 @@ void Ship::update(Hazel::Timestep ts)
 
 	if (Hazel::Input::IsKeyPressed(Hazel::Key::W))
 	{
-		velocity.y = Ship::MAX_VELOCITY;
+		velocity.y = -Ship::MAX_VELOCITY;
 	}
 	else if (Hazel::Input::IsKeyPressed(Hazel::Key::S))
 	{
-		velocity.y = -Ship::MAX_VELOCITY;
+		velocity.y = Ship::MAX_VELOCITY;
 	}
 	else
 	{
