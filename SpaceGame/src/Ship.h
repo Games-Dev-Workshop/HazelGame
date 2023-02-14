@@ -18,5 +18,7 @@ public:
 	void init();
 	void draw();
 	void update(Hazel::Timestep ts);
+
+	glm::vec3 getPosition();
 };
 

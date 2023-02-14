@@ -15,6 +15,11 @@ Ship::~Ship()
 
 }
 
+glm::vec3 Ship::getPosition()
+{
+	return position;
+}
+
 void Ship::init()
 {
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");

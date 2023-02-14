@@ -2,12 +2,12 @@
 
 #include "Hazel.h"
 
-class Player;
+class Ship;
 
 class NPC
 {
 private: 
-	Hazel::Ref<Player>player;
+	Hazel::Ref<Ship>player;
 	Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
 	float rotation;
 	glm::vec3 position;
@@ -18,7 +18,7 @@ private:
 
 	void manouver();
 	void attack();
-	glm::vec3 locatePlayer();
+
 	glm::vec3 calculateFiringPosition();
 	void manouver(glm::vec3 firingPos);
 public:
@@ -29,7 +29,7 @@ public:
 	void draw();
 	void update(Hazel::Timestep ts);
 
-	void setPlayer(Hazel::Ref<Player>player);
-	Hazel::Ref<Player> getPlayer();
+	void setPlayer(Hazel::Ref<Ship>player);
+	Hazel::Ref<Ship> getPlayer();
 };
 
