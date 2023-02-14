@@ -3,6 +3,7 @@
 #include "Hazel.h"
 
 class Ship;
+class NPC;
 class Background;
 
 class SpaceGame : public Hazel::Layer
@@ -20,7 +21,9 @@ public:
 private:
 	Hazel::OrthographicCameraController m_CameraController;
 	
+	// convert to hazel ptrs?
 	std::shared_ptr<Ship> player;
+	std::shared_ptr<NPC> npc;
 	std::shared_ptr<Background> background;
 
 	// for imgui overlay

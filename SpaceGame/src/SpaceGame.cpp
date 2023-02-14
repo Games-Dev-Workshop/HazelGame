@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Ship.h"
+#include "NPC.h"
 #include "Background.h"
 
 #include <iostream>
@@ -23,6 +24,11 @@ void SpaceGame::OnAttach()
 	
 	player.reset(new Ship());
 	player->init();
+
+	npc.reset(new NPC());
+	npc->init();
+
+	npc->setPlayer(player);
 
 	background.reset(new Background());
 	background->init();
@@ -52,6 +58,9 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 
 		//Draw ship
 		player->draw();
+
+		//Draw npc
+		npc->draw();
 		
 		Hazel::Renderer2D::EndScene();
 
@@ -69,6 +78,7 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		//m_CameraController.OnUpdate(ts);
 		background->update(ts);
 		player->update(ts);
+		npc->update(ts);
 	}
 }
 

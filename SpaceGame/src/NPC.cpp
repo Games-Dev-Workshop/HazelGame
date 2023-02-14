@@ -13,6 +13,7 @@ NPC::NPC()
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
 	target = { 0.0f,0.0f,0.0f };
+	forward = { 0.0f,1.0f,0.0f };
 
 	safeDistance = 4.0f; // needs playing with?!
 }
@@ -56,25 +57,62 @@ void NPC::update(Hazel::Timestep ts)
 	if (target == position)
 	{
 		// move to firing position
+		manouver(target);
 	}
 	else
 	{
-		// attach.
+		// attack.
+		attack();
 	}
 
 	position += velocity *= ts.GetSeconds();
 
 }
 
-void manouver(glm::vec3 firingPos)
+glm::vec3 NPC::getForward()
+{
+	return forward;
+}
+
+void NPC::manouver(glm::vec3 firingPos)
 {
 	HZ_PROFILE_FUNCTION();
+	glm::vec3 npcToPlayer;
+	float slowingRadius = safeDistance;
+	
+	// Vector in direction of the player
+	npcToPlayer = this->position - player->getPosition();
+	// Get the distance
+	float distance = npcToPlayer.length();
 
+	glm::vec3 forward = getForward();
+
+	float scale = NPC::MAX_VELOCITY * (distance / slowingRadius);
+	
+	// target Velocity!
+	forward *= scale;
+
+	if (forward.length() > 1.0f) 
+	{
+		glm::normalize(forward);
+		velocity += forward; // go forwards
+	}
+	else 
+	{
+		// In earlier code this was set to velocity?  
+		// I'm not sure why ... oh wait is that what's 
+		// wrong with the NPC in the java game?
+		velocity = { 0.0f,0.0f,0.0f };
+	}
+
+	// call a function to rotate to point forward!!
 }
 
 void NPC::attack()
 {
 	HZ_PROFILE_FUNCTION();
+
+	// Fire projectile ... oh, better write one.
 
 }
 
