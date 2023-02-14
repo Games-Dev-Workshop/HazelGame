@@ -92,6 +92,8 @@ namespace Hazel {
 
 	void OrthographicCameraController::SetZoomLevel(float level)
 	{ 
+		HZ_PROFILE_FUNCTION();
+
 		m_ZoomLevel = level; 
 		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
 	}
