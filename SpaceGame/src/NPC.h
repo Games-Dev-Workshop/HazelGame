@@ -14,7 +14,9 @@ private:
 	glm::vec3 velocity;
 	glm::vec2 size;
 	static const float MAX_VELOCITY;
-
+	
+	glm::vec3 target; // where we're going, preserved across updates. 
+	float safeDistance;
 
 	void manouver();
 	void attack();
