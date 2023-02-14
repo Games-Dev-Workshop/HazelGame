@@ -53,8 +53,12 @@ void NPC::update(Hazel::Timestep ts)
 	// identify firing position (close but not too close on current heading). 
 	glm::vec3 target = this->calculateFiringPosition();
 
+	// diff vector 
+	glm::vec3 diff = target;
+	diff -= position;
+
 	// if not in position
-	if (target == position)
+	if (diff.length() < 0.1f)
 	{
 		// move to firing position
 		manouver(target);
