@@ -9,13 +9,13 @@ const float NPC::MAX_VELOCITY = 1.0f;
 NPC::NPC()
 {
 	rotation = 0.0f;
-	position = { 0.0f, 10.0f, 0.0f };
+	position = { 3.0f, 0.0f, 0.0f };
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
-	target = { 0.0f,0.0f,0.0f };
 	forward = { 0.0f,1.0f,0.0f };
 
-	safeDistance = 4.0f; // needs playing with?!
+	safeDistance = 3.0f; // needs playing with?!
+	slowingRadius = 1.0f;
 }
 
 NPC::~NPC()
@@ -51,21 +51,25 @@ void NPC::update(Hazel::Timestep ts)
 	if (player == nullptr) return;
 
 	// identify firing position (close but not too close on current heading). 
+	//glm::vec3 target = player->getPosition();
 	glm::vec3 target = this->calculateFiringPosition();
 
 	// diff vector 
-	glm::vec3 diff = target;
-	diff -= position;
+	glm::vec3 diff = position;
+	diff -= target;
 
 	// if not in position
-	if (diff.length() < 0.1f)
+	float distanceToTarget = glm::length(diff);
+	if (distanceToTarget > 0.1f)
 	{
 		// move to firing position
+		// sets velocity
 		manouver(target);
 	}
 	else
 	{
 		// attack.
+		// also sets velocity. 
 		attack();
 	}
 
@@ -82,32 +86,27 @@ void NPC::manouver(glm::vec3 firingPos)
 {
 	HZ_PROFILE_FUNCTION();
 	glm::vec3 npcToPlayer;
-	float slowingRadius = safeDistance;
 	
 	// Vector in direction of the player
-	npcToPlayer = this->position - player->getPosition();
+	npcToPlayer = player->getPosition() - this->position;
 	// Get the distance
-	float distance = npcToPlayer.length();
+	float distance = glm::length(npcToPlayer);
 
-	glm::vec3 forward = getForward();
+	glm::vec3 targetVelocity = npcToPlayer;
+	targetVelocity = glm::fastNormalize(npcToPlayer);
 
 	float scale = NPC::MAX_VELOCITY * (distance / slowingRadius);
 	
 	// target Velocity!
-	forward *= scale;
+	targetVelocity *= scale;
 
-	if (forward.length() > 1.0f) 
+	if (glm::length(targetVelocity) > NPC::MAX_VELOCITY)
 	{
-		glm::normalize(forward);
-		velocity += forward; // go forwards
+		targetVelocity = glm::fastNormalize(targetVelocity);
+		targetVelocity *= NPC::MAX_VELOCITY;
 	}
-	else 
-	{
-		// In earlier code this was set to velocity?  
-		// I'm not sure why ... oh wait is that what's 
-		// wrong with the NPC in the java game?
-		velocity = { 0.0f,0.0f,0.0f };
-	}
+
+	velocity = targetVelocity;
 
 	// call a function to rotate to point forward!!
 }
@@ -115,6 +114,8 @@ void NPC::manouver(glm::vec3 firingPos)
 void NPC::attack()
 {
 	HZ_PROFILE_FUNCTION();
+	velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+	
 
 	// Fire projectile ... oh, better write one.
 
@@ -127,7 +128,7 @@ glm::vec3 NPC::calculateFiringPosition()
 	glm::vec3 target;
 
 	// Vector in direction of the player
-	playerToNpc = this->position - player->getPosition();
+	playerToNpc = player->getPosition() - this->position;
 
 	// normalise - just the direction 
 	// glm::normalize(playerToNpc);
