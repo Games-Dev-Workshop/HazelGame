@@ -9,7 +9,7 @@ const float NPC::MAX_VELOCITY = 1.0f;
 NPC::NPC()
 {
 	rotation = 0.0f;
-	position = { 0.0f, 0.0f, 0.0f };
+	position = { 0.0f, 10.0f, 0.0f };
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
 	target = { 0.0f,0.0f,0.0f };
@@ -131,7 +131,7 @@ glm::vec3 NPC::calculateFiringPosition()
 
 	// normalise - just the direction 
 	// glm::normalize(playerToNpc);
-	glm::fastNormalize(playerToNpc);
+	playerToNpc = glm::fastNormalize(playerToNpc);
 
 	// scale - gives a point at the 'safe distance' from the player allowing us to fire. 
 	playerToNpc *= safeDistance;
