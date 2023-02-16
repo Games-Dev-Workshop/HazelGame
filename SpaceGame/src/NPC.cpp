@@ -13,7 +13,7 @@ NPC::NPC()
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
 	forward = { 0.0f,1.0f,0.0f };
-
+	target = { 0.0f,0.0f,0.0f };
 	safeDistance = 3.0f; // needs playing with?!
 	slowingRadius = 1.0f;
 }
@@ -51,8 +51,8 @@ void NPC::update(Hazel::Timestep ts)
 	if (player == nullptr) return;
 
 	// identify firing position (close but not too close on current heading). 
-	//glm::vec3 target = player->getPosition();
-	glm::vec3 target = this->calculateFiringPosition();
+	//target = player->getPosition();
+	target = this->calculateFiringPosition();
 
 	// diff vector 
 	glm::vec3 diff = position;
@@ -85,15 +85,15 @@ glm::vec3 NPC::getForward()
 void NPC::manouver(glm::vec3 firingPos)
 {
 	HZ_PROFILE_FUNCTION();
-	glm::vec3 npcToPlayer;
+	glm::vec3 npcToFiringPos;
 	
-	// Vector in direction of the player
-	npcToPlayer = player->getPosition() - this->position;
+	// Vector in direction of the target
+	npcToFiringPos = firingPos - this->position;
 	// Get the distance
-	float distance = glm::length(npcToPlayer);
+	float distance = glm::length(npcToFiringPos);
 
-	glm::vec3 targetVelocity = npcToPlayer;
-	targetVelocity = glm::fastNormalize(npcToPlayer);
+	glm::vec3 targetVelocity = npcToFiringPos;
+	targetVelocity = glm::fastNormalize(npcToFiringPos);
 
 	float scale = NPC::MAX_VELOCITY * (distance / slowingRadius);
 	
@@ -125,10 +125,10 @@ glm::vec3 NPC::calculateFiringPosition()
 {
 	HZ_PROFILE_FUNCTION();
 	glm::vec3 playerToNpc;
-	glm::vec3 target;
+
 
 	// Vector in direction of the player
-	playerToNpc = player->getPosition() - this->position;
+	playerToNpc = this->position - player->getPosition();
 
 	// normalise - just the direction 
 	// glm::normalize(playerToNpc);
@@ -144,3 +144,7 @@ glm::vec3 NPC::calculateFiringPosition()
 	return target;
 }
 
+glm::vec3 NPC::getTarget() 
+{
+	return target;
+}

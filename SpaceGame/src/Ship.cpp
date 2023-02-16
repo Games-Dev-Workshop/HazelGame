@@ -1,5 +1,8 @@
 #include "Ship.h"
 
+#include <glm/glm.hpp> // normalise
+#include <glm/gtx/fast_square_root.hpp> // fast normalise 
+
 const float Ship::MAX_VELOCITY = 1.0f;
 
 Ship::Ship()
@@ -36,11 +39,11 @@ void Ship::update(Hazel::Timestep ts)
 
 	if (Hazel::Input::IsKeyPressed(Hazel::Key::A))
 	{
-		velocity.x = Ship::MAX_VELOCITY;
+		velocity.x = 1.0f;
 	}
 	else if (Hazel::Input::IsKeyPressed(Hazel::Key::D))
 	{
-		velocity.x = -Ship::MAX_VELOCITY;
+		velocity.x = -1.0f;
 	}
 	else 
 	{
@@ -50,17 +53,20 @@ void Ship::update(Hazel::Timestep ts)
 
 	if (Hazel::Input::IsKeyPressed(Hazel::Key::W))
 	{
-		velocity.y = -Ship::MAX_VELOCITY;
+		velocity.y = -1.0f;
 	}
 	else if (Hazel::Input::IsKeyPressed(Hazel::Key::S))
 	{
-		velocity.y = Ship::MAX_VELOCITY;
+		velocity.y = 1.0f;
 	}
 	else
 	{
 		// put decay here;
 		velocity.y = 0.0f;
 	}
+
+	velocity = glm::fastNormalize(velocity);
+	velocity *= Ship::MAX_VELOCITY;
 
 	position += velocity *= ts.GetSeconds();
 

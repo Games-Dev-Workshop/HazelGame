@@ -95,7 +95,13 @@ void SpaceGame::OnImGuiRender()
 	ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 	ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+	//ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+	glm::vec3 target = npc->getTarget();
+	ImGui::Text("NPC target: <%f, %f, %f>", target.x, target.y, target.z);
+
+	glm::vec3 playerPos = player->getPosition();
+	ImGui::Text("Player position: <%f, %f, %f>", playerPos.x, playerPos.y, playerPos.z);
+
 	ImGui::End();
 }
 

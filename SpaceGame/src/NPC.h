@@ -14,6 +14,7 @@ private:
 	glm::vec3 velocity;
 	glm::vec2 size;
 	glm::vec3 forward;
+	glm::vec3 target;
 	static const float MAX_VELOCITY;
 	
  
@@ -37,5 +38,6 @@ public:
 	Hazel::Ref<Ship> getPlayer();
 
 	glm::vec3 getForward();
+	glm::vec3 getTarget();
 };
 
