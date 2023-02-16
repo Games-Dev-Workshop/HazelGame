@@ -65,6 +65,11 @@ void Ship::update(Hazel::Timestep ts)
 		velocity.y = 0.0f;
 	}
 
+	if (Hazel::Input::IsKeyPressed(Hazel::Key::Space)) 
+	{
+		// turn hull penetratable - turn off collisions!
+	}
+
 	velocity = glm::fastNormalize(velocity);
 	velocity *= Ship::MAX_VELOCITY;
 

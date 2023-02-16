@@ -1,5 +1,6 @@
 #include "NPC.h"
 #include "Ship.h"
+#include "Bullet.h"
 
 #include <glm/glm.hpp> // normalise
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
@@ -118,7 +119,7 @@ void NPC::attack()
 	
 
 	// Fire projectile ... oh, better write one.
-
+	
 }
 
 glm::vec3 NPC::calculateFiringPosition()
