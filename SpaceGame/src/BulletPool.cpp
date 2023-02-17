@@ -11,7 +11,11 @@ BulletPool::BulletPool()
 
 BulletPool::~BulletPool()
 {
-
+	for (int i = 0; i < POOL_SIZE; ++i)
+	{
+		bullets[i]->setActive(false);
+		bullets[i].reset();
+	}
 }
 void BulletPool::init()
 {

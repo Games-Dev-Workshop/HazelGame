@@ -5,6 +5,7 @@
 class Ship;
 class NPC;
 class Background;
+class BulletPool;
 
 class SpaceGame : public Hazel::Layer
 {
@@ -22,9 +23,10 @@ private:
 	Hazel::OrthographicCameraController m_CameraController;
 	
 	// convert to hazel ptrs?
-	std::shared_ptr<Ship> player;
-	std::shared_ptr<NPC> npc;
-	std::shared_ptr<Background> background;
+	Hazel::Ref<Ship> player;
+	Hazel::Ref<NPC> npc;
+	Hazel::Ref<Background> background;
+	Hazel::Ref<BulletPool> bulletPool;
 
 	// for imgui overlay
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };

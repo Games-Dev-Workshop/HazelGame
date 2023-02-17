@@ -7,6 +7,7 @@
 #include "Ship.h"
 #include "NPC.h"
 #include "Background.h"
+#include "BulletPool.h"
 
 #include <iostream>
 
@@ -32,11 +33,19 @@ void SpaceGame::OnAttach()
 
 	background.reset(new Background());
 	background->init();
+
+	bulletPool.reset(new BulletPool());
+	bulletPool->init();
 }
 
 void SpaceGame::OnDetach()
 {
 	HZ_PROFILE_FUNCTION();
+
+	player.reset();
+	npc.reset();
+	background.reset();
+	bulletPool.reset();
 }
 
 void SpaceGame::OnUpdate(Hazel::Timestep ts)
@@ -61,6 +70,9 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 
 		//Draw npc
 		npc->draw();
+
+		// Draw bullet pool
+		bulletPool->draw();
 		
 		Hazel::Renderer2D::EndScene();
 
@@ -79,6 +91,7 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		background->update(ts);
 		player->update(ts);
 		npc->update(ts);
+		bulletPool->update(ts);
 	}
 }
 
