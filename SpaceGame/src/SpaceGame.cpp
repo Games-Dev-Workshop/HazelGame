@@ -8,6 +8,7 @@
 #include "NPC.h"
 #include "Background.h"
 #include "BulletPool.h"
+#include "Bullet.h"
 
 #include <iostream>
 
@@ -125,7 +126,7 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 	Hazel::KeyCode key;
 
 	if (e.GetCategoryFlags() & Hazel::EventCategoryKeyboard) {
-		
+
 		switch (e.GetEventType())
 		{
 		case Hazel::EventType::KeyPressed:
@@ -153,3 +154,11 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 		}
 	}
 }
+
+void SpaceGame::fireBullet(glm::vec3 direction)
+{
+	Hazel::Ref<Bullet> bullet = bulletPool->getBullet();
+	bullet->init(direction);
+	bullet->setActive(true);
+}
+

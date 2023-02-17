@@ -1,6 +1,7 @@
 #include "NPC.h"
 #include "Ship.h"
 #include "Bullet.h"
+#include "SpaceGame.h"
 
 #include <glm/glm.hpp> // normalise
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
@@ -117,8 +118,11 @@ void NPC::attack()
 	HZ_PROFILE_FUNCTION();
 	velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 	
+	glm::vec3 vecToPlayer = player->getPosition() - position;
+	glm::fastNormalize(vecToPlayer);
 
 	// Fire projectile ... oh, better write one.
+	fire(vecToPlayer);
 	
 }
 
@@ -148,4 +152,14 @@ glm::vec3 NPC::calculateFiringPosition()
 glm::vec3 NPC::getTarget() 
 {
 	return target;
+}
+
+void NPC::setGame(Hazel::Ref<SpaceGame>game)
+{
+	this->game = game;
+}
+
+void NPC::fire(glm::vec3 direction)
+{
+	game->fireBullet(direction);
 }
