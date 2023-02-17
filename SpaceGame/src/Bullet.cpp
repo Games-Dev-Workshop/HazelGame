@@ -11,6 +11,8 @@ Bullet::Bullet()
 	position = { 0.0f, 0.0f, 0.0f };
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
+
+	active = false;
 }
 
 Bullet::~Bullet()
@@ -23,6 +25,8 @@ void Bullet::init(glm::vec3 direction)
 
 	velocity = glm::fastNormalize(direction);
 	velocity *= Bullet::MAX_VELOCITY;
+
+	active = false;
 }
 
 void Bullet::draw()

@@ -16,7 +16,7 @@ public:
 	Bullet();
 	~Bullet();
 
-	void init();
+	void init(glm::vec3 direction);
 	void draw();
 	void update(Hazel::Timestep ts);
 

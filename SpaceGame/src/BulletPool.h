@@ -2,25 +2,25 @@
 
 #include "Hazel.h"
 
-class Bullet
+#include <deque>
+
+class Bullet;
+
+class BulletPool
 {
 private:
-	Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
-	float rotation;
-	glm::vec3 position;
-	glm::vec3 velocity;
-	glm::vec2 size;
-	static const float MAX_VELOCITY;
-	bool active;
+	static const int POOL_SIZE = 100;
+	std::array<Hazel::Ref<Bullet>, POOL_SIZE> bullets;
+	std::deque<int> freeList;
 public:
-	Bullet();
-	~Bullet();
+	BulletPool();
+	~BulletPool();
 
 	void init();
 	void draw();
 	void update(Hazel::Timestep ts);
 
-	inline bool isActive() { return active; };
-	inline void setActive(bool a) { active = a; };
+	Hazel::Ref<Bullet> getBullet();
+	void returnBullet(Hazel::Ref<Bullet>);
 };
 

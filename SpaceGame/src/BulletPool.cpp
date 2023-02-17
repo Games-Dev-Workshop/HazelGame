@@ -1,41 +1,76 @@
+#include "BulletPool.h"
+
+#include <algorithm>
+
 #include "Bullet.h"
 
-#include <glm/glm.hpp> // normalise
-#include <glm/gtx/fast_square_root.hpp> // fast normalise 
-
-const float Bullet::MAX_VELOCITY = 1.0f;
-
-Bullet::Bullet()
+BulletPool::BulletPool()
 {
-	rotation = 0.0f;
-	position = { 0.0f, 0.0f, 0.0f };
-	size = { 1.0f, 1.0f };
-	velocity = { 0.0f,0.0f,0.0f };
+	
 }
 
-Bullet::~Bullet()
+BulletPool::~BulletPool()
 {
 
 }
-void Bullet::init(glm::vec3 direction)
+void BulletPool::init()
 {
-	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
-
-	velocity = glm::fastNormalize(direction);
-	velocity *= Bullet::MAX_VELOCITY;
+	for (int i = 0; i < POOL_SIZE; ++i)
+	{
+		bullets[i].reset(new Bullet());
+		bullets[i]->setActive(false); // shouldn't need this.
+		freeList.push_back(i);
+	}
 }
 
-void Bullet::draw()
+void BulletPool::draw()
 {
-	Hazel::Renderer2D::DrawRotatedQuad(position, { 1.0f, 1.0f }, rotation, m_CheckerboardTexture, 1.0f);
+	for (Hazel::Ref<Bullet> bullet : bullets)
+	{
+		if (bullet->isActive())
+			draw();
+
+	}
 }
 
-void Bullet::update(Hazel::Timestep ts)
+void BulletPool::update(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 
-	velocity *= Bullet::MAX_VELOCITY;
+	for (Hazel::Ref<Bullet> bullet : bullets)
+	{
+		if (bullet->isActive())
+			update(ts);
 
-	position += velocity *= ts.GetSeconds();
+	}
 
+}
+
+Hazel::Ref<Bullet> BulletPool::getBullet()
+{
+	int nextFree = freeList.back();
+	freeList.pop_back();
+
+	return bullets[nextFree]; 
+}
+
+void BulletPool::returnBullet(Hazel::Ref<Bullet> used)
+{
+	used->setActive(false);
+
+	bool found = false;
+
+	int i = 0;
+	while ( i < POOL_SIZE && found == false)
+	{
+		if (bullets[i] == used)
+		{
+			found = true;
+			freeList.push_back(i);
+		}
+		
+		i++;
+	}
+
+	assert(found == false);
 }
