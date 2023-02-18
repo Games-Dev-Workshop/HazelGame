@@ -16,7 +16,7 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 
-	void fireBullet(glm::vec3 direction);
+	void fireBullet(glm::vec3 direction, glm::vec3 position);
 
 	void OnUpdate(Hazel::Timestep ts) override;
 	virtual void OnImGuiRender() override;

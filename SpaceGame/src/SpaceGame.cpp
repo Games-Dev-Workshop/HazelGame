@@ -160,11 +160,15 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 	}
 }
 
-void SpaceGame::fireBullet(glm::vec3 direction)
+void SpaceGame::fireBullet(glm::vec3 direction, glm::vec3 position)
 {
 	Hazel::Ref<Bullet> bullet = bulletPool->getBullet();
+
+	if (bullet == nullptr) return;
+
 	bullet->init();
 	bullet->setDirection(direction);
+	bullet->setPosition(position);
 	bullet->setActive(true);
 }
 

@@ -3,7 +3,7 @@
 #include <glm/glm.hpp> // normalise
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
 
-const float Bullet::MAX_VELOCITY = 1.0f;
+const float Bullet::MAX_VELOCITY = 5.0f;
 
 Bullet::Bullet()
 {
@@ -35,9 +35,9 @@ void Bullet::update(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 
-	velocity *= Bullet::MAX_VELOCITY;
+	
 
-	position += velocity *= ts.GetSeconds();
+	position += (velocity *= ts.GetSeconds());
 
 }
 
@@ -45,4 +45,9 @@ void Bullet::setDirection(glm::vec3 direction)
 {
 	velocity = glm::fastNormalize(direction);
 	velocity *= Bullet::MAX_VELOCITY;
+}
+
+void Bullet::setPosition(glm::vec3 position) 
+{
+	this->position = position;
 }

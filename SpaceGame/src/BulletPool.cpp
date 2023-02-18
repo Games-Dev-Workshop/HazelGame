@@ -34,7 +34,7 @@ void BulletPool::draw()
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		if (bullets[i]->isActive())
-			draw();
+			bullets[i]->draw();
 
 	}
 }
@@ -43,10 +43,12 @@ void BulletPool::update(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 
-	for (int i = 0; i < POOL_SIZE; i++)
+	//for (int i = 0; i < POOL_SIZE; i++)
+	for(Hazel::Ref<Bullet> bullet : bullets)
 	{
-		if (bullets[i]->isActive())
-			update(ts);
+		//if (bullets[i]->isActive())
+		if(bullet->isActive())
+			bullet->update(ts);
 
 	}
 
@@ -54,6 +56,9 @@ void BulletPool::update(Hazel::Timestep ts)
 
 Hazel::Ref<Bullet> BulletPool::getBullet()
 {
+	if (freeList.empty())
+		return nullptr;
+
 	int nextFree = freeList.back();
 	freeList.pop_back();
 

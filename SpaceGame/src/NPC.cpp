@@ -163,5 +163,6 @@ void NPC::fire(glm::vec3 direction)
 {
 	if (this->game == nullptr) return;
 
-	game->fireBullet(direction);
+	//todo fix this so bullet is infront of NPC
+	game->fireBullet(direction, position);
 }

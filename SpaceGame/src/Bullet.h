@@ -18,6 +18,7 @@ public:
 
 	void init();
 	void setDirection(glm::vec3 direction);
+	void setPosition(glm::vec3 position);
 
 	void draw();
 	void update(Hazel::Timestep ts);
