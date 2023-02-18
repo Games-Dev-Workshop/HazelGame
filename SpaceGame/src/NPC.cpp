@@ -161,5 +161,7 @@ void NPC::setGame(Hazel::Ref<SpaceGame>game)
 
 void NPC::fire(glm::vec3 direction)
 {
+	if (this->game == nullptr) return;
+
 	game->fireBullet(direction);
 }

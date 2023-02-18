@@ -19,9 +19,11 @@ BulletPool::~BulletPool()
 }
 void BulletPool::init()
 {
-	for (int i = 0; i < POOL_SIZE; ++i)
+	
+	for (int i = 0; i < POOL_SIZE; i++)
 	{
 		bullets[i].reset(new Bullet());
+		bullets[i]->init();
 		bullets[i]->setActive(false); // shouldn't need this.
 		freeList.push_back(i);
 	}
@@ -29,9 +31,9 @@ void BulletPool::init()
 
 void BulletPool::draw()
 {
-	for (Hazel::Ref<Bullet> bullet : bullets)
+	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		if (bullet->isActive())
+		if (bullets[i]->isActive())
 			draw();
 
 	}
@@ -41,9 +43,9 @@ void BulletPool::update(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 
-	for (Hazel::Ref<Bullet> bullet : bullets)
+	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		if (bullet->isActive())
+		if (bullets[i]->isActive())
 			update(ts);
 
 	}

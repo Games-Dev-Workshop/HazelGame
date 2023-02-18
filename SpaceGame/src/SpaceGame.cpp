@@ -23,7 +23,9 @@ void SpaceGame::OnAttach()
 {
 	HZ_PROFILE_FUNCTION();
 
-	
+	bulletPool.reset(new BulletPool());
+	bulletPool->init();
+
 	player.reset(new Ship());
 	player->init();
 
@@ -32,11 +34,14 @@ void SpaceGame::OnAttach()
 
 	npc->setPlayer(player);
 
+	Hazel::Ref<SpaceGame> game;
+	game.reset(this);
+	npc->setGame(game);
+
 	background.reset(new Background());
 	background->init();
 
-	bulletPool.reset(new BulletPool());
-	bulletPool->init();
+
 }
 
 void SpaceGame::OnDetach()
@@ -158,7 +163,8 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 void SpaceGame::fireBullet(glm::vec3 direction)
 {
 	Hazel::Ref<Bullet> bullet = bulletPool->getBullet();
-	bullet->init(direction);
+	bullet->init();
+	bullet->setDirection(direction);
 	bullet->setActive(true);
 }
 

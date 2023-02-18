@@ -19,12 +19,9 @@ Bullet::~Bullet()
 {
 
 }
-void Bullet::init(glm::vec3 direction)
+void Bullet::init()
 {
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
-
-	velocity = glm::fastNormalize(direction);
-	velocity *= Bullet::MAX_VELOCITY;
 
 	active = false;
 }
@@ -42,4 +39,10 @@ void Bullet::update(Hazel::Timestep ts)
 
 	position += velocity *= ts.GetSeconds();
 
+}
+
+void Bullet::setDirection(glm::vec3 direction)
+{
+	velocity = glm::fastNormalize(direction);
+	velocity *= Bullet::MAX_VELOCITY;
 }
