@@ -3,7 +3,7 @@
 #include <glm/glm.hpp> // normalise
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
 
-const float Bullet::MAX_VELOCITY = 5.0f;
+const float Bullet::MAX_VELOCITY = 1.0f;
 
 Bullet::Bullet()
 {
@@ -28,6 +28,8 @@ void Bullet::init()
 
 void Bullet::draw()
 {
+	if (!active) return;
+
 	Hazel::Renderer2D::DrawRotatedQuad(position, { 1.0f, 1.0f }, rotation, m_CheckerboardTexture, 1.0f);
 }
 
@@ -35,7 +37,7 @@ void Bullet::update(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
 
-	
+	if (!active) return;
 
 	position += (velocity *= ts.GetSeconds());
 
