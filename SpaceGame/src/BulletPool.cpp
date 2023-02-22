@@ -1,6 +1,8 @@
 #include "BulletPool.h"
 
 #include <algorithm>
+#include <iostream>
+
 
 #include "Bullet.h"
 
@@ -13,7 +15,7 @@ BulletPool::~BulletPool()
 {
 	for (int i = 0; i < POOL_SIZE; ++i)
 	{
-		bullets[i]->setActive(false);
+		bullets[i]->setState(Bullet::INACTIVE);
 		bullets[i].reset();
 	}
 }
@@ -24,7 +26,7 @@ void BulletPool::init()
 	{
 		bullets[i].reset(new Bullet());
 		bullets[i]->init();
-		bullets[i]->setActive(false); // shouldn't need this.
+		bullets[i]->setState(Bullet::INACTIVE); // shouldn't need this.
 		freeList.push_back(i);
 	}
 }
@@ -33,7 +35,7 @@ void BulletPool::draw()
 {
 	for (int i = 0; i < POOL_SIZE; i++)
 	{
-		if (bullets[i]->isActive())
+		if (bullets[i]->getState() == Bullet::LIVE)
 			bullets[i]->draw();
 
 	}
@@ -47,11 +49,14 @@ void BulletPool::update(Hazel::Timestep ts)
 	for(Hazel::Ref<Bullet> bullet : bullets)
 	{
 		//if (bullets[i]->isActive())
-		if(bullet->isActive())
+		if (bullet->getState() == Bullet::LIVE)
+		{
 			bullet->update(ts);
 
+			if (bullet->getState() == Bullet::DEAD)
+				returnBullet(bullet);
+		}
 	}
-
 }
 
 Hazel::Ref<Bullet> BulletPool::getBullet()
@@ -67,14 +72,14 @@ Hazel::Ref<Bullet> BulletPool::getBullet()
 
 void BulletPool::returnBullet(Hazel::Ref<Bullet> used)
 {
-	used->setActive(false);
+	used->setState(Bullet::INACTIVE);
 
 	bool found = false;
 
 	int i = 0;
 	while ( i < POOL_SIZE && found == false)
 	{
-		if (bullets[i] == used)
+		if (bullets[i].get() == used.get())
 		{
 			found = true;
 			freeList.push_back(i);
@@ -83,5 +88,5 @@ void BulletPool::returnBullet(Hazel::Ref<Bullet> used)
 		i++;
 	}
 
-	assert(found == false);
+	assert(found == true);
 }

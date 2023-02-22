@@ -4,6 +4,7 @@
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
 
 const float Bullet::MAX_VELOCITY = 1.0f;
+const float Bullet::MAX_LIFETIME = 5.0f;
 
 Bullet::Bullet()
 {
@@ -12,7 +13,7 @@ Bullet::Bullet()
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
 
-	active = false;
+	state = DEAD;
 }
 
 Bullet::~Bullet()
@@ -23,23 +24,26 @@ void Bullet::init()
 {
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 
-	active = false;
+	state = INACTIVE;
+	life = Bullet::MAX_LIFETIME;
 }
 
 void Bullet::draw()
 {
-	if (!active) return;
-
-	Hazel::Renderer2D::DrawRotatedQuad(position, { 1.0f, 1.0f }, rotation, m_CheckerboardTexture, 1.0f);
+	Hazel::Renderer2D::DrawRotatedQuad(position, { 0.2f, 0.2f }, rotation, m_CheckerboardTexture, 1.0f);
 }
 
 void Bullet::update(Hazel::Timestep ts)
 {
 	HZ_PROFILE_FUNCTION();
+	glm::vec3 delta = velocity;
+	delta *= ts.GetSeconds();
+	position += delta;
 
-	if (!active) return;
+	life -= ts;
 
-	position += (velocity *= ts.GetSeconds());
+	if (life < 0.0f)
+		state = DEAD;
 
 }
 

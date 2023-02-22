@@ -75,7 +75,9 @@ void NPC::update(Hazel::Timestep ts)
 		attack();
 	}
 
-	position += velocity *= ts.GetSeconds();
+	glm::vec3 delta = velocity;
+	delta *= ts.GetSeconds();
+	position += delta;
 
 }
 

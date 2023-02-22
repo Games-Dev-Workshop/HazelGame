@@ -141,6 +141,12 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 			case Hazel::Key::Escape:
 				std::cout << "Escape Pressed" << std::endl;
 				break;
+			case Hazel::Key::Space:
+				//std::cout << "Fire test" << std::endl;
+				//glm::vec3 position(0.0f, 0.0f, 0.0f);
+				//glm::vec3 direction(1.0f, 0.0f, 0.0f);
+				//fireBullet(direction, position);
+				break;
 			}
 			break;
 		case Hazel::EventType::KeyReleased:
@@ -169,6 +175,6 @@ void SpaceGame::fireBullet(glm::vec3 direction, glm::vec3 position)
 	bullet->init();
 	bullet->setDirection(direction);
 	bullet->setPosition(position);
-	bullet->setActive(true);
+	bullet->setState(Bullet::LIVE);
 }
 

@@ -4,6 +4,8 @@
 
 class Bullet
 {
+public: 
+	enum State { LIVE = 0, DEAD, INACTIVE };
 private:
 	Hazel::Ref<Hazel::Texture2D> m_CheckerboardTexture;
 	float rotation;
@@ -11,7 +13,9 @@ private:
 	glm::vec3 velocity;
 	glm::vec2 size;
 	static const float MAX_VELOCITY;
-	bool active;
+	static const float MAX_LIFETIME;
+	Bullet::State state;
+	float life;
 public:
 	Bullet();
 	~Bullet();
@@ -23,7 +27,7 @@ public:
 	void draw();
 	void update(Hazel::Timestep ts);
 
-	inline bool isActive() { return active; };
-	inline void setActive(bool a) { active = a; };
+	inline State getState() { return state; };
+	inline void setState(State a) { state = a; };
 };
 
