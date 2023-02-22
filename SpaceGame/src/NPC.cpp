@@ -7,6 +7,7 @@
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
 
 const float NPC::MAX_VELOCITY = 1.0f;
+const float NPC::MAX_COOLDOWN = 5.0f;
 
 NPC::NPC()
 {
@@ -18,6 +19,7 @@ NPC::NPC()
 	target = { 0.0f,0.0f,0.0f };
 	safeDistance = 3.0f; // needs playing with?!
 	slowingRadius = 1.0f;
+	cooldown = 0.0f;
 }
 
 NPC::~NPC()
@@ -28,6 +30,8 @@ NPC::~NPC()
 void NPC::init()
 {
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+
+	cooldown = MAX_COOLDOWN;
 }
 
 void NPC::draw()
@@ -75,6 +79,11 @@ void NPC::update(Hazel::Timestep ts)
 		attack();
 	}
 
+	if (cooldown < 0.0f)
+	{
+		cooldown -= ts;
+	}
+	
 	glm::vec3 delta = velocity;
 	delta *= ts.GetSeconds();
 	position += delta;
@@ -118,14 +127,17 @@ void NPC::manouver(glm::vec3 firingPos)
 void NPC::attack()
 {
 	HZ_PROFILE_FUNCTION();
-	velocity = glm::vec3(0.0f, 0.0f, 0.0f);
-	
-	glm::vec3 vecToPlayer = player->getPosition() - position;
-	glm::fastNormalize(vecToPlayer);
+	if (cooldown < 0.0f)
+	{
+		velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
-	// Fire projectile ... oh, better write one.
-	fire(vecToPlayer);
-	
+		glm::vec3 vecToPlayer = player->getPosition() - position;
+		glm::fastNormalize(vecToPlayer);
+
+		// Fire projectile ... oh, better write one.
+		fire(vecToPlayer);
+		cooldown = MAX_COOLDOWN;
+	}	
 }
 
 glm::vec3 NPC::calculateFiringPosition()

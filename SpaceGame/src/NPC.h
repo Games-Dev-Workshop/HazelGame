@@ -22,6 +22,9 @@ private:
  
 	float safeDistance;
 	float slowingRadius;
+	
+	float cooldown;
+	static const float MAX_COOLDOWN;
 
 	void manouver();
 	void attack();
