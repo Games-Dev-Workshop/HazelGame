@@ -20,6 +20,7 @@ NPC::NPC()
 	safeDistance = 3.0f; // needs playing with?!
 	slowingRadius = 1.0f;
 	cooldown = 0.0f;
+	collisionRadius = 1.0f;
 }
 
 NPC::~NPC()

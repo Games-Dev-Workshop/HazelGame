@@ -16,6 +16,7 @@ private:
 	static const float MAX_LIFETIME;
 	Bullet::State state;
 	float life;
+	float collisionRadius;
 public:
 	Bullet();
 	~Bullet();
@@ -23,11 +24,15 @@ public:
 	void init();
 	void setDirection(glm::vec3 direction);
 	void setPosition(glm::vec3 position);
+	glm::vec3 getPosition();
 
 	void draw();
 	void update(Hazel::Timestep ts);
 
 	inline State getState() { return state; };
 	inline void setState(State a) { state = a; };
+
+	inline float getCollisionRadius() { return collisionRadius; };
+	inline void setCollisionRadius(float cr) { collisionRadius = cr; };
 };
 

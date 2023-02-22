@@ -26,6 +26,7 @@ void Bullet::init()
 
 	state = INACTIVE;
 	life = Bullet::MAX_LIFETIME;
+	collisionRadius = 1.0f;
 }
 
 void Bullet::draw()
@@ -56,4 +57,9 @@ void Bullet::setDirection(glm::vec3 direction)
 void Bullet::setPosition(glm::vec3 position) 
 {
 	this->position = position;
+}
+
+glm::vec3 Bullet::getPosition()
+{
+	return this->position;
 }

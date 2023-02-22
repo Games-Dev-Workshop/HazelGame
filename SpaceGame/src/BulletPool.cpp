@@ -5,6 +5,7 @@
 
 
 #include "Bullet.h"
+#include "Ship.h"
 
 BulletPool::BulletPool()
 {
@@ -89,4 +90,21 @@ void BulletPool::returnBullet(Hazel::Ref<Bullet> used)
 	}
 
 	assert(found == true);
+}
+
+void BulletPool::processCollisions(Hazel::Ref<Ship> ship)
+{
+	//for (int i = 0; i < POOL_SIZE; i++)
+	for (Hazel::Ref<Bullet> bullet : bullets)
+	{
+		//if (bullets[i]->isActive())
+		if (bullet->getState() == Bullet::LIVE)
+		{
+			if (ship->collisionTest(bullet) == true)
+			{
+				ship->processCollision(bullet);
+				
+			}
+		}
+	}
 }

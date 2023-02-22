@@ -2,6 +2,8 @@
 
 #include "Hazel.h"
 
+class Bullet;
+
 class Ship
 {
 private: 
@@ -11,6 +13,8 @@ private:
 	glm::vec3 velocity;
 	glm::vec2 size;
 	static const float MAX_VELOCITY;
+	float collisionRadius;
+	bool colliderOn;
 public:
 	Ship();
 	~Ship();
@@ -20,5 +24,16 @@ public:
 	void update(Hazel::Timestep ts);
 
 	glm::vec3 getPosition();
+
+	inline float getCollisionRadius() { return collisionRadius; };
+	inline void setCollisionRadius(float cr) { collisionRadius = cr; };
+
+	inline bool collides() { return colliderOn; };
+	inline void collisionsOn() { colliderOn = true; };
+	inline void collisionsOff() { colliderOn = false; };
+
+	bool collisionTest(Hazel::Ref<Bullet> bull);
+	void processCollision(Hazel::Ref<Bullet> bull);
+
 };
 

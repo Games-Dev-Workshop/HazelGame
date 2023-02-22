@@ -18,6 +18,7 @@ private:
 	glm::vec2 size;
 	glm::vec3 forward;
 	glm::vec3 target;
+	float collisionRadius;
 	static const float MAX_VELOCITY;
  
 	float safeDistance;
@@ -49,5 +50,8 @@ public:
 	glm::vec3 getTarget();
 
 	void setGame(Hazel::Ref<SpaceGame>game);
+
+	inline float getCollisionRadius() { return collisionRadius; };
+	inline void setCollisionRadius(float cr) { collisionRadius = cr; };
 };
 

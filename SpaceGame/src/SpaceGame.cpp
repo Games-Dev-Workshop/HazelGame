@@ -97,7 +97,9 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		background->update(ts);
 		player->update(ts);
 		npc->update(ts);
+
 		bulletPool->update(ts);
+		bulletPool->processCollisions(player);
 	}
 }
 

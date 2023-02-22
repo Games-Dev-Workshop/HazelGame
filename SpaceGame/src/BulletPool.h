@@ -5,6 +5,7 @@
 #include <deque>
 
 class Bullet;
+class Ship;
 
 class BulletPool
 {
@@ -22,5 +23,7 @@ public:
 
 	Hazel::Ref<Bullet> getBullet();
 	void returnBullet(Hazel::Ref<Bullet>);
+
+	void processCollisions(Hazel::Ref<Ship>);
 };
 

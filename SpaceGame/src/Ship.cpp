@@ -3,6 +3,8 @@
 #include <glm/glm.hpp> // normalise
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
 
+#include "Bullet.h"
+
 const float Ship::MAX_VELOCITY = 1.0f;
 
 Ship::Ship()
@@ -11,6 +13,8 @@ Ship::Ship()
 	position = { 0.0f, 0.0f, 0.0f };
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
+	colliderOn = true;
+	collisionRadius = 1.0f;
 }
 
 Ship::~Ship()
@@ -75,4 +79,31 @@ void Ship::update(Hazel::Timestep ts)
 
 	position += velocity *= ts.GetSeconds();
 
+}
+
+bool Ship::collisionTest(Hazel::Ref<Bullet> bull) 
+{
+	glm::vec3 distance = position;
+	distance -= bull->getPosition();
+
+	if (glm::length(position) < (getCollisionRadius() + bull->getCollisionRadius()))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+void Ship::processCollision(Hazel::Ref<Bullet> bull)
+{
+	if (this->colliderOn)
+	{
+		// player takes damage
+		bull->setState(Bullet::DEAD);
+	}
+	else
+	{
+		// player doesn't take damage
+	}
 }
