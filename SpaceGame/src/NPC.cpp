@@ -79,7 +79,7 @@ void NPC::update(Hazel::Timestep ts)
 		attack();
 	}
 
-	if (cooldown < 0.0f)
+	if (cooldown > 0.0f)
 	{
 		cooldown -= ts;
 	}
