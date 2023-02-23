@@ -15,6 +15,11 @@ private:
 	static const float MAX_VELOCITY;
 	float collisionRadius;
 	bool colliderOn;
+
+	static const float HULL_COOLDOWN_MAX;
+	float hullCooldown;
+	static const float HULL_TIMER_MAX;
+	float hullTimer;
 public:
 	Ship();
 	~Ship();

@@ -6,6 +6,8 @@
 #include "Bullet.h"
 
 const float Ship::MAX_VELOCITY = 1.0f;
+const float Ship::HULL_COOLDOWN_MAX = 4.0f;
+const float Ship::HULL_TIMER_MAX = 4.0f;
 
 Ship::Ship()
 {
@@ -15,6 +17,8 @@ Ship::Ship()
 	velocity = { 0.0f,0.0f,0.0f };
 	colliderOn = true;
 	collisionRadius = 0.5f;
+	hullTimer = HULL_TIMER_MAX;
+	hullCooldown = 0.0f;
 }
 
 Ship::~Ship()
@@ -69,9 +73,41 @@ void Ship::update(Hazel::Timestep ts)
 		velocity.y = 0.0f;
 	}
 
-	if (Hazel::Input::IsKeyPressed(Hazel::Key::Space)) 
+	if (Hazel::Input::IsKeyPressed(Hazel::Key::P)) 
 	{
 		// turn hull penetratable - turn off collisions!
+		if (collides())
+		{
+			collisionsOff();
+			// don't reset the cooldown - that's time based only. 
+		}
+		else
+		{
+			if (hullCooldown < 0.0f)
+			{
+				collisionsOn();
+				hullTimer = HULL_TIMER_MAX;
+				hullCooldown = HULL_COOLDOWN_MAX;
+			}
+		}
+	}
+
+	if (!collides()) // collider off hull timer goes down. 
+	{
+		if (hullTimer > 0.0f)
+			hullTimer -= ts;
+		else
+		{
+			collisionsOff();
+			hullTimer = HULL_TIMER_MAX;
+		}
+	}
+	else // collider is on hull timer goes down. 
+	{
+		if (hullCooldown > 0.0f)
+			hullCooldown -= ts;
+		else
+			hullCooldown = HULL_COOLDOWN_MAX;
 	}
 
 	velocity = glm::fastNormalize(velocity);

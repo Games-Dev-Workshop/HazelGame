@@ -128,6 +128,12 @@ void SpaceGame::OnImGuiRender()
 	bullets = bulletPool->getLiveCount();
 	ImGui::Text("Bullets live: <%d>", bullets);
 
+	if(player->collides())
+		ImGui::Text("Player sheilds are down");
+	else
+		ImGui::Text("Player sheilds are up");
+
+
 	ImGui::End();
 }
 
@@ -149,10 +155,7 @@ void SpaceGame::OnEvent(Hazel::Event& e)
 				std::cout << "Escape Pressed" << std::endl;
 				break;
 			case Hazel::Key::Space:
-				//std::cout << "Fire test" << std::endl;
-				//glm::vec3 position(0.0f, 0.0f, 0.0f);
-				//glm::vec3 direction(1.0f, 0.0f, 0.0f);
-				//fireBullet(direction, position);
+				
 				break;
 			}
 			break;
