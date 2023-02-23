@@ -9,7 +9,7 @@
 
 BulletPool::BulletPool()
 {
-	
+	liveCount = 0;
 }
 
 BulletPool::~BulletPool()
@@ -53,10 +53,20 @@ void BulletPool::update(Hazel::Timestep ts)
 		if (bullet->getState() == Bullet::LIVE)
 		{
 			bullet->update(ts);
-
-			if (bullet->getState() == Bullet::DEAD)
-				returnBullet(bullet);
 		}
+	}
+}
+
+
+void BulletPool::recycleBullets()
+{
+	HZ_PROFILE_FUNCTION();
+
+	//for (int i = 0; i < POOL_SIZE; i++)
+	for (Hazel::Ref<Bullet> bullet : bullets)
+	{
+		if (bullet->getState() == Bullet::DEAD)
+			returnBullet(bullet);
 	}
 }
 
@@ -67,14 +77,13 @@ Hazel::Ref<Bullet> BulletPool::getBullet()
 
 	int nextFree = freeList.back();
 	freeList.pop_back();
+	liveCount++;
 
 	return bullets[nextFree]; 
 }
 
 void BulletPool::returnBullet(Hazel::Ref<Bullet> used)
 {
-	used->setState(Bullet::INACTIVE);
-
 	bool found = false;
 
 	int i = 0;
@@ -84,6 +93,8 @@ void BulletPool::returnBullet(Hazel::Ref<Bullet> used)
 		{
 			found = true;
 			freeList.push_back(i);
+			liveCount--;
+			used->setState(Bullet::INACTIVE);
 		}
 		
 		i++;
@@ -103,8 +114,12 @@ void BulletPool::processCollisions(Hazel::Ref<Ship> ship)
 			if (ship->collisionTest(bullet) == true)
 			{
 				ship->processCollision(bullet);
-				
 			}
 		}
 	}
+}
+
+int BulletPool::getLiveCount() 
+{
+	return liveCount;
 }

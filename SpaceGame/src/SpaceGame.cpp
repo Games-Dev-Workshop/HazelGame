@@ -100,6 +100,7 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 
 		bulletPool->update(ts);
 		bulletPool->processCollisions(player);
+		bulletPool->recycleBullets();
 	}
 }
 
@@ -122,6 +123,10 @@ void SpaceGame::OnImGuiRender()
 
 	glm::vec3 playerPos = player->getPosition();
 	ImGui::Text("Player position: <%f, %f, %f>", playerPos.x, playerPos.y, playerPos.z);
+
+	float bullets;
+	bullets = bulletPool->getLiveCount();
+	ImGui::Text("Bullets live: <%d>", bullets);
 
 	ImGui::End();
 }

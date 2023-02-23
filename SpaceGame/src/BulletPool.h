@@ -13,6 +13,7 @@ private:
 	static const int POOL_SIZE = 100;
 	std::array<Hazel::Ref<Bullet>, POOL_SIZE> bullets;
 	std::deque<int> freeList;
+	int liveCount;
 public:
 	BulletPool();
 	~BulletPool();
@@ -20,10 +21,12 @@ public:
 	void init();
 	void draw();
 	void update(Hazel::Timestep ts);
+	void recycleBullets();
 
 	Hazel::Ref<Bullet> getBullet();
 	void returnBullet(Hazel::Ref<Bullet>);
 
 	void processCollisions(Hazel::Ref<Ship>);
+	int getLiveCount();
 };
 

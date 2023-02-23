@@ -7,7 +7,7 @@
 #include <glm/gtx/fast_square_root.hpp> // fast normalise 
 
 const float NPC::MAX_VELOCITY = 1.0f;
-const float NPC::MAX_COOLDOWN = 5.0f;
+const float NPC::MAX_COOLDOWN = 2.0f;
 
 NPC::NPC()
 {
