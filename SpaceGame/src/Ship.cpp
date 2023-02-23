@@ -14,7 +14,7 @@ Ship::Ship()
 	size = { 1.0f, 1.0f };
 	velocity = { 0.0f,0.0f,0.0f };
 	colliderOn = true;
-	collisionRadius = 1.0f;
+	collisionRadius = 0.5f;
 }
 
 Ship::~Ship()
@@ -86,7 +86,7 @@ bool Ship::collisionTest(Hazel::Ref<Bullet> bull)
 	glm::vec3 distance = position;
 	distance -= bull->getPosition();
 
-	if (glm::length(position) < (getCollisionRadius() + bull->getCollisionRadius()))
+	if (glm::length(distance) < (getCollisionRadius() + bull->getCollisionRadius()))
 	{
 		return true;
 	}

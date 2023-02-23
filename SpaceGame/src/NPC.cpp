@@ -133,7 +133,7 @@ void NPC::attack()
 		velocity = glm::vec3(0.0f, 0.0f, 0.0f);
 
 		glm::vec3 vecToPlayer = player->getPosition() - position;
-		glm::fastNormalize(vecToPlayer);
+		vecToPlayer = glm::fastNormalize(vecToPlayer);
 
 		// Fire projectile ... oh, better write one.
 		fire(vecToPlayer);

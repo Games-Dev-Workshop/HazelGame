@@ -26,7 +26,7 @@ void Bullet::init()
 
 	state = INACTIVE;
 	life = Bullet::MAX_LIFETIME;
-	collisionRadius = 1.0f;
+	collisionRadius = 0.1f;
 }
 
 void Bullet::draw()
