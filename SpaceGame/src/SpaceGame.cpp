@@ -133,6 +133,11 @@ void SpaceGame::OnImGuiRender()
 	else
 		ImGui::Text("Player sheilds are up");
 
+	float hullTimer = player->getHullTimer();
+	float hullCooldown = player->getHullCooldown();
+
+	ImGui::Text("Hull timer: %f", hullTimer);
+	ImGui::Text("Hull cooldown: %f", hullCooldown);
 
 	ImGui::End();
 }

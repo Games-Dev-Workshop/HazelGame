@@ -78,43 +78,71 @@ void Ship::update(Hazel::Timestep ts)
 		// turn hull penetratable - turn off collisions!
 		if (collides())
 		{
-			collisionsOff();
-			// don't reset the cooldown - that's time based only. 
+			hullOff();
 		}
 		else
 		{
-			if (hullCooldown < 0.0f)
-			{
-				collisionsOn();
-				hullTimer = HULL_TIMER_MAX;
-				hullCooldown = HULL_COOLDOWN_MAX;
-			}
+			hullOn();
 		}
 	}
 
-	if (!collides()) // collider off hull timer goes down. 
-	{
-		if (hullTimer > 0.0f)
-			hullTimer -= ts;
-		else
-		{
-			collisionsOff();
-			hullTimer = HULL_TIMER_MAX;
-		}
-	}
-	else // collider is on hull timer goes down. 
-	{
-		if (hullCooldown > 0.0f)
-			hullCooldown -= ts;
-		else
-			hullCooldown = HULL_COOLDOWN_MAX;
-	}
+	updateHullStatus(ts);
 
 	velocity = glm::fastNormalize(velocity);
 	velocity *= Ship::MAX_VELOCITY;
 
 	position += velocity *= ts.GetSeconds();
 
+}
+
+void Ship::hullOn()
+{
+	collisionsOn();
+	hullCooldown = HULL_COOLDOWN_MAX;
+}
+
+void Ship::hullOff()
+{
+	collisionsOff();
+	hullTimer = HULL_TIMER_MAX;
+}
+
+void Ship::updateHullStatus(Hazel::Timestep ts)
+{
+	if (!collides()) // collider off hull timer goes down. 
+	{
+		if (hullTimer > 0.0f)
+			hullTimer -= ts;
+		else
+		{
+			hullOn();
+		}
+
+		if (hullCooldown < HULL_COOLDOWN_MAX)
+			hullCooldown += ts;
+		else
+		{
+	
+		}
+	}
+	else // collider is on hull timer goes down. 
+	{
+
+
+		if (hullCooldown > 0.0f)
+			hullCooldown -= ts;
+		else
+		{
+
+		}
+
+		if (hullTimer < HULL_TIMER_MAX)
+			hullTimer += ts;
+		else
+		{
+
+		}
+	}
 }
 
 bool Ship::collisionTest(Hazel::Ref<Bullet> bull) 
@@ -142,4 +170,14 @@ void Ship::processCollision(Hazel::Ref<Bullet> bull)
 	{
 		// player doesn't take damage
 	}
+}
+
+float Ship::getHullTimer()
+{
+	return hullTimer;
+}
+
+float Ship::getHullCooldown()
+{
+	return hullCooldown;
 }

@@ -20,6 +20,11 @@ private:
 	float hullCooldown;
 	static const float HULL_TIMER_MAX;
 	float hullTimer;
+
+	void hullOn();
+	void hullOff();
+	void updateHullStatus(Hazel::Timestep ts);
+
 public:
 	Ship();
 	~Ship();
@@ -39,6 +44,10 @@ public:
 
 	bool collisionTest(Hazel::Ref<Bullet> bull);
 	void processCollision(Hazel::Ref<Bullet> bull);
+
+	//Debugging
+	float getHullTimer();
+	float getHullCooldown();
 
 };
 
