@@ -17,6 +17,7 @@ private:
 	Bullet::State state;
 	float life;
 	float collisionRadius;
+	int hitPoints;
 public:
 	Bullet();
 	~Bullet();
@@ -31,6 +32,8 @@ public:
 
 	inline State getState() { return state; };
 	inline void setState(State a) { state = a; };
+
+	int getHitPoints();
 
 	inline float getCollisionRadius() { return collisionRadius; };
 	inline void setCollisionRadius(float cr) { collisionRadius = cr; };

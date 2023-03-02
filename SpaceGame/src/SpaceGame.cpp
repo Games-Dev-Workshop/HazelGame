@@ -101,6 +101,9 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		bulletPool->update(ts);
 		bulletPool->processCollisions(player);
 		bulletPool->recycleBullets();
+
+		if (!player->isLive())
+			player->respawn();
 	}
 }
 

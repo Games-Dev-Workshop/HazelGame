@@ -21,6 +21,10 @@ private:
 	static const float HULL_TIMER_MAX;
 	float hullTimer;
 
+	static const int MAX_HEALTH = 10;
+	int health;
+	void takeHit(int hit);
+
 	void hullOn();
 	void hullOff();
 	void updateHullStatus(Hazel::Timestep ts);
@@ -44,6 +48,9 @@ public:
 
 	bool collisionTest(Hazel::Ref<Bullet> bull);
 	void processCollision(Hazel::Ref<Bullet> bull);
+
+	bool isLive();
+	void respawn();
 
 	//Debugging
 	float getHullTimer();

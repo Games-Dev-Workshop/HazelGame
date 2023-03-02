@@ -19,11 +19,20 @@ Ship::Ship()
 	collisionRadius = 0.5f;
 	hullTimer = HULL_TIMER_MAX;
 	hullCooldown = 0.0f;
+	health = MAX_HEALTH;
 }
 
 Ship::~Ship()
 {
 
+}
+
+void Ship::respawn() 
+{
+	position = { 0.0f, 0.0f, 0.0f };
+	hullTimer = HULL_TIMER_MAX;
+	hullCooldown = 0.0f;
+	health = MAX_HEALTH;
 }
 
 glm::vec3 Ship::getPosition()
@@ -35,6 +44,8 @@ void Ship::init()
 {
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 }
+
+
 
 void Ship::draw()
 {
@@ -164,11 +175,15 @@ void Ship::processCollision(Hazel::Ref<Bullet> bull)
 	if (this->colliderOn)
 	{
 		// player takes damage
+		this->takeHit(bull->getHitPoints());
+
+		// bullet dies
 		bull->setState(Bullet::DEAD);
 	}
 	else
 	{
 		// player doesn't take damage
+		// bullet goes through
 	}
 }
 
@@ -180,4 +195,18 @@ float Ship::getHullTimer()
 float Ship::getHullCooldown()
 {
 	return hullCooldown;
+}
+
+void Ship::takeHit(int hit)
+{
+	if(health > 0)	
+		health -= hit;
+}
+
+bool Ship::isLive()
+{
+	if (health < 1)
+		return false;
+	else
+		return true;
 }

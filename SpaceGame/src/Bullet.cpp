@@ -14,6 +14,7 @@ Bullet::Bullet()
 	velocity = { 0.0f,0.0f,0.0f };
 
 	state = DEAD;
+	hitPoints = 1;
 }
 
 Bullet::~Bullet()
@@ -62,4 +63,9 @@ void Bullet::setPosition(glm::vec3 position)
 glm::vec3 Bullet::getPosition()
 {
 	return this->position;
+}
+
+int Bullet::getHitPoints() 
+{
+	return hitPoints;
 }
