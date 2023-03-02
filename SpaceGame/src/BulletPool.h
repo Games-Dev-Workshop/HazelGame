@@ -6,6 +6,7 @@
 
 class Bullet;
 class Ship;
+class NPC;
 
 class BulletPool
 {
@@ -27,6 +28,7 @@ public:
 	void returnBullet(Hazel::Ref<Bullet>);
 
 	void processCollisions(Hazel::Ref<Ship>);
+	void processCollisions(Hazel::Ref<NPC>);
 	int getLiveCount();
 };
 

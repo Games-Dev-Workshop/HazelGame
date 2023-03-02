@@ -27,7 +27,7 @@ Ship::~Ship()
 
 }
 
-void Ship::respawn() 
+void Ship::respawn()
 {
 	position = { 0.0f, 0.0f, 0.0f };
 	hullTimer = HULL_TIMER_MAX;

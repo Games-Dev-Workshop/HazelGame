@@ -4,6 +4,7 @@
 
 class Ship;
 class SpaceGame;
+class Bullet;
 
 class NPC
 {
@@ -35,6 +36,10 @@ private:
 
 	void fire(glm::vec3 direction);
 
+	static const int MAX_HEALTH = 1;
+	int health;
+	void takeHit(int hit);
+
 public:
 	NPC();
 	~NPC();
@@ -51,7 +56,13 @@ public:
 
 	void setGame(Hazel::Ref<SpaceGame>game);
 
+	bool isLive();
+	void respawn();
+
 	inline float getCollisionRadius() { return collisionRadius; };
 	inline void setCollisionRadius(float cr) { collisionRadius = cr; };
+
+	bool collisionTest(Hazel::Ref<Bullet> bull);
+	void processCollision(Hazel::Ref<Bullet> bull);
 };
 

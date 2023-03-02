@@ -72,10 +72,12 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
 		//Draw ship
-		player->draw();
+		if(player->isLive())
+			player->draw();
 
 		//Draw npc
-		npc->draw();
+		if(npc->isLive())
+			npc->draw();
 
 		// Draw bullet pool
 		bulletPool->draw();
@@ -100,6 +102,7 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 
 		bulletPool->update(ts);
 		bulletPool->processCollisions(player);
+		bulletPool->processCollisions(npc);
 		bulletPool->recycleBullets();
 
 		if (!player->isLive())

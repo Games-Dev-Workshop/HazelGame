@@ -21,6 +21,7 @@ NPC::NPC()
 	slowingRadius = 1.0f;
 	cooldown = 0.0f;
 	collisionRadius = 1.0f;
+	health = MAX_HEALTH;
 }
 
 NPC::~NPC()
@@ -180,4 +181,48 @@ void NPC::fire(glm::vec3 direction)
 
 	//todo fix this so bullet is infront of NPC
 	game->fireBullet(direction, position);
+}
+
+void NPC::respawn()
+{
+	position = { 3.0f, 0.0f, 0.0f };
+	health = MAX_HEALTH;
+}
+
+void NPC::takeHit(int hit)
+{
+	if (health > 0)
+		health -= hit;
+}
+
+bool NPC::isLive()
+{
+	if (health < 1)
+		return false;
+	else
+		return true;
+}
+
+bool NPC::collisionTest(Hazel::Ref<Bullet> bull)
+{
+	glm::vec3 distance = position;
+	distance -= bull->getPosition();
+
+	if (glm::length(distance) < (getCollisionRadius() + bull->getCollisionRadius()))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+void NPC::processCollision(Hazel::Ref<Bullet> bull)
+{
+	// player takes damage
+	this->takeHit(bull->getHitPoints());
+
+	// bullet dies
+	bull->setState(Bullet::DEAD);
+	
 }
