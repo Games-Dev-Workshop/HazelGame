@@ -38,7 +38,7 @@ void NPC::init()
 
 void NPC::draw()
 {
-	Hazel::Renderer2D::DrawRotatedQuad(position, { 1.0f, 1.0f }, rotation, m_CheckerboardTexture, 1.0f);
+	Hazel::Renderer2D::DrawRotatedQuad(position, size, rotation, m_CheckerboardTexture, 1.0f);
 }
 
 void NPC::setPlayer(Hazel::Ref<Ship> player)
@@ -179,8 +179,12 @@ void NPC::fire(glm::vec3 direction)
 {
 	if (this->game == nullptr) return;
 
+	glm::vec bulletSpawnPos = position;
+	glm::vec offset = direction * glm::fastLength(size); 
+	bulletSpawnPos = bulletSpawnPos + offset;
+
 	//todo fix this so bullet is infront of NPC
-	game->fireBullet(direction, position);
+	game->fireBullet(direction, bulletSpawnPos);
 }
 
 void NPC::respawn()
