@@ -11,11 +11,17 @@
 #include "Bullet.h"
 
 #include <iostream>
+#include <random>
 
 SpaceGame::SpaceGame()
 	: Layer("SpaceGame"), m_CameraController(1280.0f / 720.0f)
 {
 	m_CameraController.SetZoomLevel(-5.0f);
+
+	std::random_device dev;
+	std::mt19937 rng(dev());
+	std::uniform_int_distribution<std::mt19937::result_type> dist1(-1, 1); // distribution in range [1, 6]
+
 
 }
 
@@ -32,11 +38,15 @@ void SpaceGame::OnAttach()
 	npc.reset(new NPC());
 	npc->init();
 
+	npc2.reset(new NPC());
+	npc2->init();
+
 	npc->setPlayer(player);
 
 	Hazel::Ref<SpaceGame> game;
 	game.reset(this);
 	npc->setGame(game);
+	npc2->setGame(game);
 
 	background.reset(new Background());
 	background->init();
@@ -79,6 +89,9 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		if(npc->isLive())
 			npc->draw();
 
+		if (npc2->isLive())
+			npc->draw();
+
 		// Draw bullet pool
 		bulletPool->draw();
 		
@@ -99,10 +112,12 @@ void SpaceGame::OnUpdate(Hazel::Timestep ts)
 		background->update(ts);
 		player->update(ts);
 		npc->update(ts);
+		npc2->update(ts);
 
 		bulletPool->update(ts);
 		bulletPool->processCollisions(player);
 		bulletPool->processCollisions(npc);
+		bulletPool->processCollisions(npc2);
 		bulletPool->recycleBullets();
 
 		if (!player->isLive())
@@ -197,5 +212,14 @@ void SpaceGame::fireBullet(glm::vec3 direction, glm::vec3 position)
 	bullet->setDirection(direction);
 	bullet->setPosition(position);
 	bullet->setState(Bullet::LIVE);
+}
+
+glm::vec3 SpaceGame::getRandomOffscreenPosition()
+{
+	
+}
+
+void SpaceGame::getRandomFloat(float min, float max)
+{
 }
 

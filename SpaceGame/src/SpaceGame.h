@@ -18,6 +18,8 @@ public:
 
 	void fireBullet(glm::vec3 direction, glm::vec3 position);
 
+	glm::vec3 getRandomOffscreenPosition();
+
 	void OnUpdate(Hazel::Timestep ts) override;
 	virtual void OnImGuiRender() override;
 	void OnEvent(Hazel::Event& e) override;
@@ -27,9 +29,12 @@ private:
 	// convert to hazel ptrs?
 	Hazel::Ref<Ship> player;
 	Hazel::Ref<NPC> npc;
+	Hazel::Ref<NPC> npc2;
 	Hazel::Ref<Background> background;
 	Hazel::Ref<BulletPool> bulletPool;
 
 	// for imgui overlay
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+
+	void getRandomFloat(float min, float max);
 };
