@@ -189,7 +189,8 @@ void NPC::fire(glm::vec3 direction)
 
 void NPC::respawn()
 {
-	position = { 3.0f, 0.0f, 0.0f };
+	//position = { 3.0f, 0.0f, 0.0f };
+	position = game->getRandomOffscreenPosition();
 	health = MAX_HEALTH;
 }
 

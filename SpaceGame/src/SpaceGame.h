@@ -2,6 +2,8 @@
 
 #include "Hazel.h"
 
+#include <random>
+
 class Ship;
 class NPC;
 class Background;
@@ -18,13 +20,18 @@ public:
 
 	void fireBullet(glm::vec3 direction, glm::vec3 position);
 
-	glm::vec3 getRandomOffscreenPosition();
-
 	void OnUpdate(Hazel::Timestep ts) override;
 	virtual void OnImGuiRender() override;
 	void OnEvent(Hazel::Event& e) override;
+
+	void seedRandomFloat();
+	float getRandomFloat(float min, float max);
+	glm::vec3 getRandomOffscreenPosition();
 private:
 	Hazel::OrthographicCameraController m_CameraController;
+
+	std::mt19937 eng;
+	std::uniform_real_distribution<float> randGen;
 	
 	// convert to hazel ptrs?
 	Hazel::Ref<Ship> player;
@@ -36,5 +43,4 @@ private:
 	// for imgui overlay
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
-	void getRandomFloat(float min, float max);
 };

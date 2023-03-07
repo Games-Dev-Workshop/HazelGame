@@ -11,23 +11,24 @@
 #include "Bullet.h"
 
 #include <iostream>
-#include <random>
+#include <Hazel/Core/Application.h>
+
 
 SpaceGame::SpaceGame()
 	: Layer("SpaceGame"), m_CameraController(1280.0f / 720.0f)
 {
 	m_CameraController.SetZoomLevel(-5.0f);
 
-	std::random_device dev;
-	std::mt19937 rng(dev());
-	std::uniform_int_distribution<std::mt19937::result_type> dist1(-1, 1); // distribution in range [1, 6]
-
+	seedRandomFloat();
 
 }
 
 void SpaceGame::OnAttach()
 {
 	HZ_PROFILE_FUNCTION();
+
+	Hazel::Ref<SpaceGame> game;
+	game.reset(this);
 
 	bulletPool.reset(new BulletPool());
 	bulletPool->init();
@@ -37,17 +38,18 @@ void SpaceGame::OnAttach()
 
 	npc.reset(new NPC());
 	npc->init();
+	npc->setGame(game);
+	npc->respawn();
 
 	npc2.reset(new NPC());
 	npc2->init();
+	npc2->setGame(game);
+	npc2->respawn();
 
 	npc->setPlayer(player);
 
-	Hazel::Ref<SpaceGame> game;
-	game.reset(this);
-	npc->setGame(game);
-	npc2->setGame(game);
-
+	
+	
 	background.reset(new Background());
 	background->init();
 
@@ -216,10 +218,50 @@ void SpaceGame::fireBullet(glm::vec3 direction, glm::vec3 position)
 
 glm::vec3 SpaceGame::getRandomOffscreenPosition()
 {
-	
+	float x = getRandomFloat(-1.0f, 1.0f);
+	float y = getRandomFloat(-1.0f, 1.0f);
+
+	//float height = Hazel::Application::Get().GetWindow().GetHeight();
+	//float width = Hazel::Application::Get().GetWindow().GetWidth();
+
+	float height = 1.0f;
+	float width = 1.0f;
+
+	glm::vec3 random;
+
+	if (x < 0.0f)
+	{
+		random.x = x;
+	}
+	else
+	{
+		random.x = width + x;
+	}
+
+	if (y < 0.0f)
+	{
+		random.y = y;
+	}
+	else
+	{
+		random.y = width + y;
+	}
+
+	return random;
 }
 
-void SpaceGame::getRandomFloat(float min, float max)
+float SpaceGame::getRandomFloat(float min, float max)
 {
+	return min + (randGen(eng) * (max - min));
+}
+
+void SpaceGame::seedRandomFloat() 
+{
+	std::array<int, std::mt19937::state_size> seedData;
+	std::random_device  randDevice;
+	randGen = std::uniform_real_distribution<float>(-1, 1);
+	std::generate_n(seedData.data(), seedData.size(), std::ref(randDevice));
+	std::seed_seq seq(std::begin(seedData), std::end(seedData));
+	eng.seed(seq);
 }
 
